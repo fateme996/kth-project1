@@ -15,12 +15,16 @@ This project is a Java-based desktop application implementing the Connect 4 game
 
 ### Fatemeh
 
+---
+
 2026-05-08
 
 ### Ada
 
 - [ ] First iteration on all board logic
 - [ ] Finished user tests
+
+---
 
 2026-05-11
 
