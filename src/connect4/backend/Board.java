@@ -1,17 +1,25 @@
 package src.connect4.backend;
 
 public class Board {
-    public enum Turn {
-        RED,
-        YELLOW;
-    }
-    private Turn turn;
-    public Turn getCurrentTurn() {
-        return this.turn;
+    private int currentPlayer;
+    public int getCurrentPlayer() {
+        return this.currentPlayer;
     }
 
-    public void makeMove(int column) {
+    public boolean makeMove(int column) {
+        return false;
+    }
 
+    int[][] getGrid() {
+        return new int[0][0];
+    }
+
+    boolean checkWin() {
+     return false;
+    }
+
+    boolean isDraw() {
+        return false;
     }
 
     public Board() {
