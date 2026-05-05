@@ -20,15 +20,15 @@ public class Board {
         return false;
     }
 
-    int[][] getGrid() {
+    public int[][] getGrid() {
         return this.grid;
     }
 
-    boolean checkWin() {
-     return false;
+    public boolean checkWin() {
+        return false;
     }
 
-    boolean isDraw() {
+    public boolean isDraw() {
         return false;
     }
 
