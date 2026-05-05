@@ -1,7 +1,7 @@
 package src.connect4.backend;
 
 public class Board {
-    private final int BOARD_HEIGHT = 6
+    private final int BOARD_HEIGHT = 6;
     private final int[][] grid;
     private int currentPlayer;
     public int getCurrentPlayer() {
