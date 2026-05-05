@@ -1,6 +1,7 @@
 package src.connect4.backend;
 
 public class Board {
+    private final int BOARD_HEIGHT = 6
     private final int[][] grid;
     private int currentPlayer;
     public int getCurrentPlayer() {
@@ -8,6 +9,14 @@ public class Board {
     }
 
     public boolean makeMove(int column) {
+        for (int i = 0; i < BOARD_HEIGHT; i++) {
+            if (this.grid[column][i] != 0) {
+                this.grid[column][i] = currentPlayer;
+                this.currentPlayer = this.currentPlayer & 1;
+                this.currentPlayer += 1;
+                return true;
+            }
+        }
         return false;
     }
 
