@@ -10,6 +10,11 @@ public class GameUI extends JFrame {
 
     int rows = 6;
     int cols = 7;
+
+    private int currentPlayer = 1; // 1= red, 2= yellow
+
+
+    private int[][] grid = new int [6][7];
     Board board = new Board();
 
     public GameUI() {
@@ -87,15 +92,26 @@ public class GameUI extends JFrame {
             g.setColor(new Color(0, 0, 200));
             g.fillRect(0, 0, panelWidth, panelHeight);
 
-            // Draw the holes
-            g.setColor(Color.WHITE);
+        
 
             for (int row = 0; row < rows; row++) {
                 for (int col = 0; col < cols; col++) {
                     int x = offsetX + col * cellSize;
                     int y = offsetY + row * cellSize;
 
+                    // Draw the hole(empty)
+                    g.setColor(Color.WHITE);
                     g.fillOval(x + 5, y + 5, cellSize - 10, cellSize - 10);
+
+                    // Draw token if exists
+                    if (grid[row][col] == 1) {
+                        g.setColor(Color.RED);
+                        g.fillOval(x + 5, y + 5, cellSize - 10, cellSize - 10);
+                    } else if (grid[row][col] == 2) {
+                        g.setColor(Color.YELLOW);
+                        g.fillOval(x + 5, y + 5, cellSize - 10, cellSize - 10);
+
+                    }
                 }
             }
 
@@ -128,6 +144,20 @@ public class GameUI extends JFrame {
         if (column < 0 || column >= cols) {
             return;
         }
+        //simulate token falling in the selected column
+        for (int row = rows -1; row >= 0; row--) {
+            //check if the posiion is empty
+            if (grid[row][column] == 0) {
+
+                //place token for current player
+                grid [row][column] = currentPlayer;
+
+                //switch player for next turn
+                currentPlayer = (currentPlayer == 1) ? 2 : 1;
+                break;
+            }
+        }
+        gamePanel.repaint(); // redraw the board
         
         System.out.println("Clicked column: " + column);
     }
