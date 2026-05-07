@@ -3,8 +3,13 @@ package src.connect4.frontend;
 import src.connect4.backend.Board;
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 
 public class GameUI extends JFrame {
+
+    int rows = 6;
+    int cols = 7;
     Board board = new Board();
 
     public GameUI() {
@@ -35,7 +40,7 @@ public class GameUI extends JFrame {
         tokensPanel.add(new Token(Color.YELLOW));
 
 
-        // Botton
+        // Button
         JButton button = new JButton("Start Game");
         button.setAlignmentX(Component.CENTER_ALIGNMENT);
         button.setBackground(new Color(255, 255, 255));
@@ -65,10 +70,8 @@ public class GameUI extends JFrame {
 
         @Override
         protected void paintComponent(Graphics g) {
-            super.paintComponents(g);
+            super.paintComponent(g);
 
-            int rows = 6;
-            int cols = 7;
 
             int panelWidth = getWidth();
             int panelHeight = getHeight();
@@ -98,7 +101,40 @@ public class GameUI extends JFrame {
 
         }
   }; 
-  
+
+  // click handeling
+  gamePanel.addMouseListener(new MouseAdapter() {
+
+    @Override
+    public void mouseClicked(MouseEvent e) {
+
+        //get current size of the panel
+        int panelWidth = gamePanel.getWidth();
+        int panelHeight = gamePanel.getHeight();
+
+        // calculate the size of each cell
+        int cellSize = Math.min(panelWidth / cols, panelHeight / rows);
+
+        // calculate the horizontal offset to center the board
+        int offsetX = (panelWidth - (cols * cellSize)) / 2;
+
+        // get X position where user clicked in pixels
+        int x = e.getX();
+
+        // convert pixel position to column index
+        int column = (x - offsetX) / cellSize;
+
+        //Ignore clicks outside the board
+        if (column < 0 || column >= cols) {
+            return;
+        }
+        
+        System.out.println("Clicked column: " + column);
+    }
+
+  });
+
+  // add panel to frame
         add(gamePanel);
         revalidate();
         repaint();
