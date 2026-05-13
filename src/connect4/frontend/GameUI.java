@@ -32,7 +32,7 @@ public class GameUI extends JFrame {
         JLabel label = new JLabel("Welcome to Connect 4");
         label.setAlignmentX(Component.CENTER_ALIGNMENT);
         label.setForeground(Color.WHITE);
-        label.setFont(new Font("Arial", Font.BOLD, 32));
+        label.setFont(new Font("Arial", Font.BOLD, 42));
 
         // Tokens panel
         JPanel tokensPanel = new JPanel();
@@ -56,14 +56,25 @@ public class GameUI extends JFrame {
 
         button.addActionListener(e -> {showGameScreen();});
 
+        //Adding rule button
+        JButton ruleButton = new JButton("Rule");
+        ruleButton.setAlignmentX(Component.CENTER_ALIGNMENT);
+        ruleButton.setPreferredSize(new Dimension(200, 50));
+        ruleButton.setMaximumSize(new Dimension(200, 50));
+        ruleButton.setFont(new Font("Arial", Font.BOLD, 22));
+
+        ruleButton.addActionListener(e -> showRule());
+
         // Add spacing + elements
         panel.add(Box.createVerticalGlue());
         panel.add(label);
-        panel.add(Box.createVerticalStrut(15));
+        panel.add(Box.createVerticalStrut(30));
         panel.add(tokensPanel);
         panel.add(button);
+        panel.add(Box.createVerticalStrut(20));
+        panel.add(ruleButton);
         panel.add(Box.createVerticalGlue());
-
+        
         add(panel);
         setVisible(true);
     }
@@ -169,6 +180,17 @@ public class GameUI extends JFrame {
         revalidate();
         repaint();
 
+}
+
+private void showRule() {
+    String message = "Connect 4 Game\n\n"
+            + "Connect 4 is a two-player game where players take turns dropping colored discs into a grid.\n" + 
+                                "The discs fall to the lowest empty spot in the selected column.\n" + 
+                                "The goal is to connect four discs in a row, either horizontally, vertically, or diagonally.\n" + 
+                                "If the board becomes full before a player connects four discs, the game ends in a draw.\n\n"
+            + "Good luck!";
+
+JOptionPane.showMessageDialog(this, message, "Game Rule", JOptionPane.INFORMATION_MESSAGE);
 }
 
 // Token class
