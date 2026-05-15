@@ -23,6 +23,12 @@ public class GameUI extends JFrame {
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setLocationRelativeTo(null);
 
+        showWelcomeScreen();
+        setVisible(true);
+    }
+    // welcome screen
+    private void showWelcomeScreen() {
+
         //Main panel
         JPanel panel = new JPanel();
         panel.setLayout(new BoxLayout(panel, BoxLayout.Y_AXIS));
@@ -76,9 +82,12 @@ public class GameUI extends JFrame {
         panel.add(Box.createVerticalGlue());
         
         add(panel);
-        setVisible(true);
+        revalidate();
+        repaint();
+
     }
 
+    // Game screen
     private void showGameScreen() {
         getContentPane().removeAll();
 
