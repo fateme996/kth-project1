@@ -90,6 +90,7 @@ public class GameUI extends JFrame {
     // Game screen
     private void showGameScreen() {
         getContentPane().removeAll();
+        setLayout(new BorderLayout());
 
         JPanel gamePanel = new JPanel() {
 
@@ -109,7 +110,7 @@ public class GameUI extends JFrame {
             int offsetY = (panelHeight - (rows * cellSize)) / 2;
 
             // Draw the background
-            g.setColor(new Color(0, 0, 200));
+            g.setColor(new Color(198, 178, 147));
             g.fillRect(0, 0, panelWidth, panelHeight);
 
         
@@ -183,9 +184,39 @@ public class GameUI extends JFrame {
     }
 
   });
+  // create top panel
+  JPanel topPanel = new JPanel(new FlowLayout(FlowLayout.CENTER));
+
+        topPanel.setPreferredSize(new Dimension(0, 60));
+        topPanel.setBackground(new Color(194, 155, 97));
+
+
+        // add back and restart buttons
+        JButton backButton = new JButton("Back");
+        JButton restarButton = new JButton("Restart");
+
+        backButton.setPreferredSize(new Dimension(70, 40));
+        restarButton.setPreferredSize(new Dimension(70, 40));
+
+        // actions
+        backButton.addActionListener(e -> {
+            getContentPane().removeAll();
+            showWelcomeScreen();
+        });
+
+        restarButton.addActionListener(e -> {
+            grid = new int [rows][cols];
+            currentPlayer = 1;
+            gamePanel.repaint();
+        });
+
+        // Add buttons to top panel
+        topPanel.add(backButton);
+        topPanel.add(restarButton);
 
   // add panel to frame
-        add(gamePanel);
+        add(topPanel, BorderLayout.NORTH);
+        add(gamePanel, BorderLayout.CENTER);
         revalidate();
         repaint();
 
