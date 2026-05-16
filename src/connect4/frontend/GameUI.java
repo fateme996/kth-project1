@@ -3,72 +3,89 @@ package src.connect4.frontend;
 import src.connect4.backend.Board;
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 
 public class GameUI extends JFrame {
+
+    int rows = 6;
+    int cols = 7;
+
+    private int currentPlayer = 1; // 1= red, 2= yellow
+
+
+    private int[][] grid = new int [6][7];
     Board board = new Board();
 
     public GameUI() {
         setTitle("Connect 4");
-        setSize(700, 600);
+        setSize(1000, 800);
+        setResizable(false);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setLocationRelativeTo(null);
+        showWelcomeScreen();
+        setVisible(true);
+    }
+    // welcome screen
+    private void showWelcomeScreen() {
+
+        getContentPane().removeAll();
 
         //Main panel
-        JPanel panel = new JPanel();
-        panel.setLayout(new BoxLayout(panel, BoxLayout.Y_AXIS));
-        panel.setBackground(new Color(102, 0, 153));
+        JPanel panel = new JPanel() {
+            private Image background = new ImageIcon("src/connect4/connect4.jpeg"
+            ).getImage();
 
-        // Title
-        JLabel label = new JLabel("Welcome to Connect 4");
-        label.setAlignmentX(Component.CENTER_ALIGNMENT);
-        label.setForeground(Color.WHITE);
-        label.setFont(new Font("Arial", Font.BOLD, 32));
+            @Override
+            protected void paintComponent(Graphics g) {
+                super.paintComponent(g);
 
-        // Tokens panel
-        JPanel tokensPanel = new JPanel();
-        tokensPanel.setLayout(new FlowLayout());
-        tokensPanel.setOpaque(false);
+                //draw image
+                g.drawImage(background, 0, 0, getWidth(), getHeight(), this);
+            
+            }
+        };
 
-        tokensPanel.add(new Token(Color.RED));
-        tokensPanel.add(new Token(Color.YELLOW));
-        tokensPanel.add(new Token(Color.RED));
-        tokensPanel.add(new Token(Color.YELLOW));
-
-
-        // Botton
+        panel.setLayout(null);
+        
+        // Adding start button
         JButton button = new JButton("Start Game");
-        button.setAlignmentX(Component.CENTER_ALIGNMENT);
+        button.setBounds(180, 600, 160, 70);
         button.setBackground(new Color(255, 255, 255));
-        button.setMaximumSize(new Dimension(220, 60));
-        button.setPreferredSize(new Dimension(220, 60));
         button.setFont(new Font("Arial", Font.BOLD, 24));
         button.setFocusPainted(false);
 
         button.addActionListener(e -> {showGameScreen();});
 
-        // Add spacing + elements
-        panel.add(Box.createVerticalGlue());
-        panel.add(label);
-        panel.add(Box.createVerticalStrut(15));
-        panel.add(tokensPanel);
-        panel.add(button);
-        panel.add(Box.createVerticalGlue());
+        //Adding rule button
+        JButton ruleButton = new JButton("Rule");
+        ruleButton.setBounds(700, 600, 160, 70);
+        ruleButton.setBackground(new Color(255, 255, 255));
+        ruleButton.setFont(new Font("Arial", Font.BOLD, 24));
 
+        ruleButton.addActionListener(e -> showRule());
+
+        // Add spacing + elements
+        panel.add(button);
+        panel.add(ruleButton);
+        
         add(panel);
-        setVisible(true);
+        revalidate();
+        repaint();
+
     }
 
+    // Game screen
     private void showGameScreen() {
         getContentPane().removeAll();
+        setLayout(new BorderLayout());
 
         JPanel gamePanel = new JPanel() {
 
         @Override
         protected void paintComponent(Graphics g) {
-            super.paintComponents(g);
+            super.paintComponent(g);
 
-            int rows = 6;
-            int cols = 7;
 
             int panelWidth = getWidth();
             int panelHeight = getHeight();
@@ -81,45 +98,132 @@ public class GameUI extends JFrame {
             int offsetY = (panelHeight - (rows * cellSize)) / 2;
 
             // Draw the background
-            g.setColor(new Color(0, 0, 200));
+            g.setColor(new Color(0, 0, 255));
             g.fillRect(0, 0, panelWidth, panelHeight);
 
-            // Draw the holes
-            g.setColor(Color.WHITE);
+        
 
             for (int row = 0; row < rows; row++) {
                 for (int col = 0; col < cols; col++) {
                     int x = offsetX + col * cellSize;
                     int y = offsetY + row * cellSize;
 
+                    // Draw the hole(empty)
+                    g.setColor(Color.WHITE);
                     g.fillOval(x + 5, y + 5, cellSize - 10, cellSize - 10);
+
+                    // Draw token if exists
+                    if (grid[row][col] == 1) {
+                        g.setColor(Color.RED);
+                        g.fillOval(x + 5, y + 5, cellSize - 10, cellSize - 10);
+                    } else if (grid[row][col] == 2) {
+                        g.setColor(Color.YELLOW);
+                        g.fillOval(x + 5, y + 5, cellSize - 10, cellSize - 10);
+
+                    }
                 }
             }
 
         }
   }; 
-  
-        add(gamePanel);
+
+  // click handeling
+  gamePanel.addMouseListener(new MouseAdapter() {
+
+    @Override
+    public void mouseClicked(MouseEvent e) {
+
+        //get current size of the panel
+        int panelWidth = gamePanel.getWidth();
+        int panelHeight = gamePanel.getHeight();
+
+        // calculate the size of each cell
+        int cellSize = Math.min(panelWidth / cols, panelHeight / rows);
+
+        // calculate the horizontal offset to center the board
+        int offsetX = (panelWidth - (cols * cellSize)) / 2;
+
+        // get X position where user clicked in pixels
+        int x = e.getX();
+
+        // convert pixel position to column index
+        int column = (x - offsetX) / cellSize;
+
+        //Ignore clicks outside the board
+        if (column < 0 || column >= cols) {
+            return;
+        }
+        //simulate token falling in the selected column
+        for (int row = rows -1; row >= 0; row--) {
+            //check if the posiion is empty
+            if (grid[row][column] == 0) {
+
+                //place token for current player
+                grid [row][column] = currentPlayer;
+
+                //switch player for next turn
+                currentPlayer = (currentPlayer == 1) ? 2 : 1;
+                break;
+            }
+        }
+        gamePanel.repaint(); // redraw the board
+        
+        System.out.println("Clicked column: " + column);
+    }
+
+  });
+  // create top panel
+  JPanel topPanel = new JPanel(new FlowLayout(FlowLayout.CENTER));
+
+        topPanel.setPreferredSize(new Dimension(0, 60));
+        topPanel.setBackground(new Color(0, 47, 167));
+
+
+        // add back and restart buttons
+        JButton backButton = new JButton("Back");
+        JButton restarButton = new JButton("Restart");
+
+        backButton.setPreferredSize(new Dimension(70, 40));
+        restarButton.setPreferredSize(new Dimension(70, 40));
+
+        // actions
+        backButton.addActionListener(e -> {
+            getContentPane().removeAll();
+            showWelcomeScreen();
+        });
+
+        restarButton.addActionListener(e -> {
+            grid = new int [rows][cols];
+            currentPlayer = 1;
+            gamePanel.repaint();
+        });
+
+        // Add buttons to top panel
+        topPanel.add(backButton);
+        topPanel.add(restarButton);
+
+  // add panel to frame
+        add(topPanel, BorderLayout.NORTH);
+        add(gamePanel, BorderLayout.CENTER);
         revalidate();
         repaint();
 
 }
 
-// Token class
-class Token extends JPanel {
-    private Color color;
+private void showRule() {
+    String message = "Connect 4 Game\n\n"
+            + "Connect 4 is a two-player game where players take turns\n"
+            + "dropping colored discs into a grid.\n" 
+            + "The discs fall to the lowest empty spot in the selected column.\n" 
+            + "The goal is to connect four discs in a row,\n"
+            + "either horizontally, vertically, or diagonally.\n" 
+            + "If the board becomes full before a player connects four discs\n"
+            + "the game ends in a draw.\n\n"
 
-    public Token(Color color) {
-        this.color = color;
-        setPreferredSize(new Dimension(80, 80));
-        setOpaque(false);
-    }
+            + "Good luck!";
 
-    @Override
-    protected void paintComponent(Graphics g) {
-        super.paintComponent(g);
-        g.setColor(color);
-        g.fillOval(0, 0, getWidth(), getHeight());
-    }
-  } 
+JOptionPane.showMessageDialog(this, message, "Game Rule", JOptionPane.INFORMATION_MESSAGE);
+}
+
+
  } 
