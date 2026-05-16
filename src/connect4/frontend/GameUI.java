@@ -5,8 +5,6 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
-import java.awt.Image;
-import javax.swing.ImageIcon;
 
 public class GameUI extends JFrame {
 
@@ -21,7 +19,8 @@ public class GameUI extends JFrame {
 
     public GameUI() {
         setTitle("Connect 4");
-        setSize(700, 600);
+        setSize(1000, 800);
+        setResizable(false);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setLocationRelativeTo(null);
         showWelcomeScreen();
@@ -47,14 +46,12 @@ public class GameUI extends JFrame {
             }
         };
 
-        panel.setLayout(new BoxLayout(panel, BoxLayout.Y_AXIS));
+        panel.setLayout(null);
         
-        // Button
+        // Adding start button
         JButton button = new JButton("Start Game");
-        button.setAlignmentX(Component.CENTER_ALIGNMENT);
+        button.setBounds(180, 600, 160, 70);
         button.setBackground(new Color(255, 255, 255));
-        button.setMaximumSize(new Dimension(220, 60));
-        button.setPreferredSize(new Dimension(220, 60));
         button.setFont(new Font("Arial", Font.BOLD, 24));
         button.setFocusPainted(false);
 
@@ -62,18 +59,15 @@ public class GameUI extends JFrame {
 
         //Adding rule button
         JButton ruleButton = new JButton("Rule");
-        ruleButton.setAlignmentX(Component.CENTER_ALIGNMENT);
-        ruleButton.setPreferredSize(new Dimension(200, 50));
-        ruleButton.setMaximumSize(new Dimension(200, 50));
-        ruleButton.setFont(new Font("Arial", Font.BOLD, 22));
+        ruleButton.setBounds(700, 600, 160, 70);
+        ruleButton.setBackground(new Color(255, 255, 255));
+        ruleButton.setFont(new Font("Arial", Font.BOLD, 24));
 
         ruleButton.addActionListener(e -> showRule());
 
         // Add spacing + elements
-        panel.add(Box.createVerticalGlue());
         panel.add(button);
         panel.add(ruleButton);
-        panel.add(Box.createVerticalGlue());
         
         add(panel);
         revalidate();
@@ -218,30 +212,18 @@ public class GameUI extends JFrame {
 
 private void showRule() {
     String message = "Connect 4 Game\n\n"
-            + "Connect 4 is a two-player game where players take turns dropping colored discs into a grid.\n" + 
-                                "The discs fall to the lowest empty spot in the selected column.\n" + 
-                                "The goal is to connect four discs in a row, either horizontally, vertically, or diagonally.\n" + 
-                                "If the board becomes full before a player connects four discs, the game ends in a draw.\n\n"
+            + "Connect 4 is a two-player game where players take turns\n"
+            + "dropping colored discs into a grid.\n" 
+            + "The discs fall to the lowest empty spot in the selected column.\n" 
+            + "The goal is to connect four discs in a row,\n"
+            + "either horizontally, vertically, or diagonally.\n" 
+            + "If the board becomes full before a player connects four discs\n"
+            + "the game ends in a draw.\n\n"
+
             + "Good luck!";
 
 JOptionPane.showMessageDialog(this, message, "Game Rule", JOptionPane.INFORMATION_MESSAGE);
 }
 
-// Token class
-//class Token extends JPanel {
-    //private Color color;
 
-    //public Token(Color color) {
-        //this.color = color;
-        //setPreferredSize(new Dimension(80, 80));
-        //setOpaque(false);
-    //}
-
-    //@Override
-    //protected void paintComponent(Graphics g) {
-        //super.paintComponent(g);
-        //g.setColor(color);
-        //g.fillOval(0, 0, getWidth(), getHeight());
-    //}
-  //} 
  } 
