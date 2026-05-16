@@ -5,6 +5,8 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.awt.Image;
+import javax.swing.ImageIcon;
 
 public class GameUI extends JFrame {
 
@@ -22,35 +24,31 @@ public class GameUI extends JFrame {
         setSize(700, 600);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setLocationRelativeTo(null);
-
         showWelcomeScreen();
         setVisible(true);
     }
     // welcome screen
     private void showWelcomeScreen() {
 
+        getContentPane().removeAll();
+
         //Main panel
-        JPanel panel = new JPanel();
+        JPanel panel = new JPanel() {
+            private Image background = new ImageIcon("src/connect4/connect4.jpeg"
+            ).getImage();
+
+            @Override
+            protected void paintComponent(Graphics g) {
+                super.paintComponent(g);
+
+                //draw image
+                g.drawImage(background, 0, 0, getWidth(), getHeight(), this);
+            
+            }
+        };
+
         panel.setLayout(new BoxLayout(panel, BoxLayout.Y_AXIS));
-        panel.setBackground(new Color(102, 0, 153));
-
-        // Title
-        JLabel label = new JLabel("Welcome to Connect 4");
-        label.setAlignmentX(Component.CENTER_ALIGNMENT);
-        label.setForeground(Color.WHITE);
-        label.setFont(new Font("Arial", Font.BOLD, 42));
-
-        // Tokens panel
-        JPanel tokensPanel = new JPanel();
-        tokensPanel.setLayout(new FlowLayout());
-        tokensPanel.setOpaque(false);
-
-        tokensPanel.add(new Token(Color.RED));
-        tokensPanel.add(new Token(Color.YELLOW));
-        tokensPanel.add(new Token(Color.RED));
-        tokensPanel.add(new Token(Color.YELLOW));
-
-
+        
         // Button
         JButton button = new JButton("Start Game");
         button.setAlignmentX(Component.CENTER_ALIGNMENT);
@@ -73,11 +71,7 @@ public class GameUI extends JFrame {
 
         // Add spacing + elements
         panel.add(Box.createVerticalGlue());
-        panel.add(label);
-        panel.add(Box.createVerticalStrut(30));
-        panel.add(tokensPanel);
         panel.add(button);
-        panel.add(Box.createVerticalStrut(20));
         panel.add(ruleButton);
         panel.add(Box.createVerticalGlue());
         
@@ -110,7 +104,7 @@ public class GameUI extends JFrame {
             int offsetY = (panelHeight - (rows * cellSize)) / 2;
 
             // Draw the background
-            g.setColor(new Color(198, 178, 147));
+            g.setColor(new Color(0, 0, 255));
             g.fillRect(0, 0, panelWidth, panelHeight);
 
         
@@ -188,7 +182,7 @@ public class GameUI extends JFrame {
   JPanel topPanel = new JPanel(new FlowLayout(FlowLayout.CENTER));
 
         topPanel.setPreferredSize(new Dimension(0, 60));
-        topPanel.setBackground(new Color(194, 155, 97));
+        topPanel.setBackground(new Color(0, 47, 167));
 
 
         // add back and restart buttons
@@ -234,20 +228,20 @@ JOptionPane.showMessageDialog(this, message, "Game Rule", JOptionPane.INFORMATIO
 }
 
 // Token class
-class Token extends JPanel {
-    private Color color;
+//class Token extends JPanel {
+    //private Color color;
 
-    public Token(Color color) {
-        this.color = color;
-        setPreferredSize(new Dimension(80, 80));
-        setOpaque(false);
-    }
+    //public Token(Color color) {
+        //this.color = color;
+        //setPreferredSize(new Dimension(80, 80));
+        //setOpaque(false);
+    //}
 
-    @Override
-    protected void paintComponent(Graphics g) {
-        super.paintComponent(g);
-        g.setColor(color);
-        g.fillOval(0, 0, getWidth(), getHeight());
-    }
-  } 
+    //@Override
+    //protected void paintComponent(Graphics g) {
+        //super.paintComponent(g);
+        //g.setColor(color);
+        //g.fillOval(0, 0, getWidth(), getHeight());
+    //}
+  //} 
  } 
