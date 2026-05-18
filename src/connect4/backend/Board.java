@@ -11,6 +11,9 @@ public class Board {
     }
 
     public boolean makeMove(int column) {
+        if(column < 0 || column > 6) {
+            return false;
+        }
         for (int i = 0; i < BOARD_HEIGHT; i++) {
             if (this.grid[i][column] == 0) {
                 this.grid[i][column] = currentPlayer;
