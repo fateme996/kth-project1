@@ -5,6 +5,8 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import javax.sound.sampled.*;
+import java.io.File;
 
 public class GameUI extends JFrame {
 
@@ -65,7 +67,7 @@ public class GameUI extends JFrame {
 
         ruleButton.addActionListener(e -> showRule());
 
-        // Add spacing + elements
+        // Add elements to panel
         panel.add(button);
         panel.add(ruleButton);
         
@@ -161,6 +163,9 @@ public class GameUI extends JFrame {
                 //place token for current player
                 grid [row][column] = currentPlayer;
 
+                //sound effect
+                playClickSound();
+
                 //switch player for next turn
                 currentPlayer = (currentPlayer == 1) ? 2 : 1;
                 break;
@@ -181,10 +186,10 @@ public class GameUI extends JFrame {
 
         // add back and restart buttons
         JButton backButton = new JButton("Back");
-        JButton restarButton = new JButton("Restart");
+        JButton restartButton = new JButton("Restart");
 
         backButton.setPreferredSize(new Dimension(70, 40));
-        restarButton.setPreferredSize(new Dimension(70, 40));
+        restartButton.setPreferredSize(new Dimension(70, 40));
 
         // actions
         backButton.addActionListener(e -> {
@@ -192,7 +197,7 @@ public class GameUI extends JFrame {
             showWelcomeScreen();
         });
 
-        restarButton.addActionListener(e -> {
+        restartButton.addActionListener(e -> {
             grid = new int [rows][cols];
             currentPlayer = 1;
             gamePanel.repaint();
@@ -200,7 +205,7 @@ public class GameUI extends JFrame {
 
         // Add buttons to top panel
         topPanel.add(backButton);
-        topPanel.add(restarButton);
+        topPanel.add(restartButton);
 
   // add panel to frame
         add(topPanel, BorderLayout.NORTH);
@@ -208,6 +213,18 @@ public class GameUI extends JFrame {
         revalidate();
         repaint();
 
+}
+// method for playing the sound effect
+private void playClickSound() {
+    try {
+        AudioInputStream audio = AudioSystem.getAudioInputStream(new File("src/connect4/click.wav"));
+
+        Clip clip = AudioSystem.getClip();
+        clip.open(audio);
+        clip.start();
+    } catch (Exception e) {
+        e.printStackTrace();
+    }
 }
 
 private void showRule() {
