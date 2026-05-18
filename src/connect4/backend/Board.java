@@ -12,7 +12,7 @@ public class Board {
 
     public boolean makeMove(int column) {
         for (int i = 0; i < BOARD_HEIGHT; i++) {
-            if (this.grid[i][column] != 0) {
+            if (this.grid[i][column] == 0) {
                 this.grid[i][column] = currentPlayer;
                 this.currentPlayer = this.currentPlayer & 1;
                 this.currentPlayer += 1;
