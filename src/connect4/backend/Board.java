@@ -102,6 +102,25 @@ public class Board {
         return false;
     }
 
+    public String displayBoard() {
+        StringBuilder sb = new StringBuilder();
+        for (int[] ar : this.grid) {
+            for (Integer cell : ar) {
+                if (cell == 0) {
+                    sb.append("-");
+                } else if (cell == 1) {
+                    sb.append("O");
+                } else if (cell == 2) {
+                    sb.append("X");
+                } else {
+                    sb.append("?");
+                }
+            }
+            sb.append("\n");
+        }
+        return sb.toString();
+    }
+
     public Board(int startingPlayer) {
         this.grid = new int[6][7];
         this.currentPlayer = startingPlayer;
@@ -109,5 +128,10 @@ public class Board {
 
     public Board() {
         this(1);
+    }
+
+    public static void main(String[] args) {
+        Board board = new Board();
+        System.out.println(board.displayBoard());
     }
 }
