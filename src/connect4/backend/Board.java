@@ -69,7 +69,7 @@ public class Board {
             int currentX = this.lastMoveX + i;
             int currentY = this.lastMoveY + i;
             if (currentX >= 0 && currentX < 7 && currentY > 0 && currentY < 6) {
-                if (this.grid[currentX][currentY] == checkingPlayer) {
+                if (this.grid[currentY][currentX] == checkingPlayer) {
                     inARow += 1;
                 } else {
                     inARow = 0;
@@ -85,7 +85,7 @@ public class Board {
             int currentX = this.lastMoveX + i;
             int currentY = this.lastMoveY - i;
             if (currentX >= 0 && currentX < 7 && currentY >= 0 && currentY < 6) {
-                if (this.grid[currentX][currentY] == checkingPlayer) {
+                if (this.grid[currentY][currentX] == checkingPlayer) {
                     inARow += 1;
                 } else {
                     inARow = 0;
