@@ -20,4 +20,29 @@ public class BoardTest {
         this.grid[0][4] = 1;
         assertArrayEquals(this.grid, board.getGrid());
     }
+
+    @Test
+    public void canWinVertical() {
+        board.makeMove(4);
+        board.makeMove(3);
+        board.makeMove(4);
+        board.makeMove(3);
+        board.makeMove(4);
+        board.makeMove(3);
+        board.makeMove(4);
+        assertTrue(board.checkWin());
+    }
+
+    @Test
+    public void canWinHorizontal() {
+        board.makeMove(0);
+        board.makeMove(0);
+        board.makeMove(1);
+        board.makeMove(1);
+        board.makeMove(2);
+        board.makeMove(2);
+        board.makeMove(3);
+        //System.out.println(board.displayBoard());
+        assertTrue(board.checkWin());
+    }
 }
