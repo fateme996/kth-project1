@@ -104,18 +104,26 @@ public class Board {
 
     public String displayBoard() {
         StringBuilder sb = new StringBuilder();
+        sb.append("  ");
+        for (int i = 0; i < 7; i++) {
+            sb.append(i);
+            sb.append(" ");
+        }
+        sb.append("\n");
         for (int i = this.grid.length - 1; i >= 0; i--) {
             int[] ar = this.grid[i];
+            sb.append(i);
+            sb.append(" ");
             for (Integer cell : ar) {
                 //int cell = ar[i];
                 if (cell == 0) {
-                    sb.append("-");
+                    sb.append("- ");
                 } else if (cell == 1) {
-                    sb.append("O");
+                    sb.append("O ");
                 } else if (cell == 2) {
-                    sb.append("X");
+                    sb.append("X ");
                 } else {
-                    sb.append("?");
+                    sb.append("? ");
                 }
             }
             sb.append("\n");
