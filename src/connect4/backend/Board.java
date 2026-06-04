@@ -104,8 +104,10 @@ public class Board {
 
     public String displayBoard() {
         StringBuilder sb = new StringBuilder();
-        for (int[] ar : this.grid) {
+        for (int i = this.grid.length - 1; i >= 0; i--) {
+            int[] ar = this.grid[i];
             for (Integer cell : ar) {
+                //int cell = ar[i];
                 if (cell == 0) {
                     sb.append("-");
                 } else if (cell == 1) {
