@@ -68,7 +68,7 @@ public class Board {
         for (int i = -3; i <= 3; i++) {
             int currentX = this.lastMoveX + i;
             int currentY = this.lastMoveY + i;
-            if (currentX >= 0 && currentX < 7 && currentY > 0 && currentY < 6) {
+            if (currentX >= 0 && currentX < 7 && currentY >= 0 && currentY < 6) {
                 if (this.grid[currentY][currentX] == checkingPlayer) {
                     inARow += 1;
                 } else {
