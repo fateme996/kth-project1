@@ -45,4 +45,72 @@ public class BoardTest {
         //System.out.println(board.displayBoard());
         assertTrue(board.checkWin());
     }
+
+    @Test
+    public void canWinFirstDiagonal() {
+        board.makeMove(0);
+        board.makeMove(1);
+        board.makeMove(1);
+        board.makeMove(0);
+        board.makeMove(2);
+        board.makeMove(2);
+        board.makeMove(2);
+        board.makeMove(3);
+        board.makeMove(3);
+        board.makeMove(3);
+        board.makeMove(3);
+        System.out.println(board.displayBoard());
+        assertTrue(board.checkWin());
+    }
+
+    @Test
+    public void canWinFirstDiagonalShifted() {
+        board.makeMove(3);
+        board.makeMove(4);
+        board.makeMove(4);
+        board.makeMove(3);
+        board.makeMove(5);
+        board.makeMove(5);
+        board.makeMove(5);
+        board.makeMove(6);
+        board.makeMove(6);
+        board.makeMove(6);
+        board.makeMove(6);
+        System.out.println(board.displayBoard());
+        assertTrue(board.checkWin());
+    }
+
+    @Test
+    public void canWinSecondDiagonal() {
+        board.makeMove(3);
+        board.makeMove(2);
+        board.makeMove(2);
+        board.makeMove(3);
+        board.makeMove(1);
+        board.makeMove(1);
+        board.makeMove(1);
+        board.makeMove(0);
+        board.makeMove(0);
+        board.makeMove(0);
+        board.makeMove(0);
+        System.out.println(board.displayBoard());
+        assertTrue(board.checkWin());
+    }
+
+    @Test
+    public void canWinSecondDiagonalShifted() {
+        board.makeMove(6);
+        board.makeMove(5);
+        board.makeMove(5);
+        board.makeMove(6);
+        board.makeMove(4);
+        board.makeMove(4);
+        board.makeMove(4);
+        board.makeMove(3);
+        board.makeMove(3);
+        board.makeMove(3);
+        board.makeMove(3);
+        System.out.println(board.displayBoard());
+        assertTrue(board.checkWin());
+    }
 }
