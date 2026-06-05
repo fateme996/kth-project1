@@ -14,7 +14,7 @@ public class Board {
         if(column < 0 || column > 6) {
             return false;
         }
-        for (int i = 0; i < BOARD_HEIGHT; i++) {
+        for (int i = BOARD_HEIGHT -1; i >= 0; i--) {
             if (this.grid[i][column] == 0) {
                 this.grid[i][column] = currentPlayer;
                 this.currentPlayer = this.currentPlayer & 1;
