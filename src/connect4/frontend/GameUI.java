@@ -12,11 +12,6 @@ public class GameUI extends JFrame {
 
     int rows = 6;
     int cols = 7;
-
-    private int currentPlayer = 1; // 1= red, 2= yellow
-
-
-    private int[][] grid = new int [6][7];
     Board board = new Board();
 
     public GameUI() {
@@ -30,7 +25,6 @@ public class GameUI extends JFrame {
     }
     // welcome screen
     private void showWelcomeScreen() {
-
         getContentPane().removeAll();
 
         //Main panel
@@ -47,7 +41,6 @@ public class GameUI extends JFrame {
             
             }
         };
-
         panel.setLayout(null);
         
         // Adding start button
@@ -87,6 +80,7 @@ public class GameUI extends JFrame {
         @Override
         protected void paintComponent(Graphics g) {
             super.paintComponent(g);
+            int[][] grid = board.getGrid();
 
 
             int panelWidth = getWidth();
@@ -155,28 +149,24 @@ public class GameUI extends JFrame {
         if (column < 0 || column >= cols) {
             return;
         }
-        //simulate token falling in the selected column
-        for (int row = rows -1; row >= 0; row--) {
-            //check if the posiion is empty
-            if (grid[row][column] == 0) {
-
-                //place token for current player
-                grid [row][column] = currentPlayer;
-
-                //sound effect
-                playClickSound();
-
-                //switch player for next turn
-                currentPlayer = (currentPlayer == 1) ? 2 : 1;
-                break;
-            }
-        }
-        gamePanel.repaint(); // redraw the board
         
-        System.out.println("Clicked column: " + column);
+        //Handle player move and check for winner and show the end dialog
+        if (board.makeMove(column)) {
+            playClickSound();
+            gamePanel.repaint();
+
+            if (board.checkWin()) {
+                int winner = board.getCurrentPlayer() == 1 ? 2: 1;
+                String winnerColor = winner == 1 ? "Red player" : "Yellow player";
+                showEndDialog(winnerColor + " wins!" , gamePanel);
+            }
+
+        }
+        
     }
 
   });
+  
   // create top panel
   JPanel topPanel = new JPanel(new FlowLayout(FlowLayout.CENTER));
 
@@ -198,8 +188,7 @@ public class GameUI extends JFrame {
         });
 
         restartButton.addActionListener(e -> {
-            grid = new int [rows][cols];
-            currentPlayer = 1;
+            board = new Board();
             gamePanel.repaint();
         });
 
@@ -224,6 +213,21 @@ private void playClickSound() {
         clip.start();
     } catch (Exception e) {
         e.printStackTrace();
+    }
+}
+
+ // shows the end-game window with restart and return options
+private void showEndDialog(String message, JPanel gamePanel) {
+    String[] options = {"Play again", "Back to first page"};
+
+    int choice = JOptionPane.showOptionDialog(this, message, "Congratulations!", JOptionPane.DEFAULT_OPTION, JOptionPane.INFORMATION_MESSAGE, null, options, options[0]);
+
+    if (choice == 0) {
+        board = new Board();
+        gamePanel.repaint();
+    } else if (choice == 1) {
+        getContentPane().removeAll();
+        showWelcomeScreen();
     }
 }
 
